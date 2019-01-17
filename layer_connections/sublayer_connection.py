@@ -16,8 +16,8 @@ class SublayerConnection(nn.Module):
 
     def __init__(self, size, dropout):
         """
-        :param size:
-        :param dropout:
+        :param size:512
+        :param dropout:0.1
         """
         super(SublayerConnection, self).__init__()
         self.norm = LayerNorm(size)
@@ -25,7 +25,8 @@ class SublayerConnection(nn.Module):
 
     def forward(self, x, sublayer):
         """
-        :param x:
+        :param x:[30,10,512] 30样本，10个单词，512维的词向量的 representation
+        :param self.norm(x)
         :param sublayer:
         :return:
         """

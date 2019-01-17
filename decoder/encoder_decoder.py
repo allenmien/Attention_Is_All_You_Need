@@ -42,12 +42,19 @@ class EncoderDecoder(nn.Module):
 
     def encode(self, src, src_mask):
         """
+        self.src_embed(src) -->Embeddings-->PositionalEncoding-->Encoder-->EncoderLayer
+        -->SublayerConnection-->LayerNorm-->MultiHeadedAttention-->
         :param src: src = batch.src = [30,10]-->元素是：0-10之间的矩阵
                     self.src_embed(src) = layer
         :param self.src_embed： nn.Sequential(Embeddings(d_model, src_vocab), c(position))
-        :param : d_model=512, src_vocab=11, position = PositionalEncoding(d_model, dropout),dropout=0.1
-        :param ：Embeddings(d_model, src_vocab)
-        :param ：src_mask N=6
+        :param ：d_model=512, src_vocab=11, position = PositionalEncoding(d_model, dropout),dropout=0.1
+        :param Embeddings(d_model, src_vocab):[30,10,512] 30样本，10个单词，512维的词向量的 representation
+        :param position:上面的[30,10,512]会成为positional_encoding的输入x
+        :param self.src_embed = nn.Sequential(Embeddings(d_model, src_vocab), c(position))会得到一个
+                [30,10,512] embedding+positonal_encoding的整个encoder的输入矩阵
+
+        :param self.src_embed(src), src_mask会作为EncoderLayer forward的输入
+        :param ：src_mask [30,1,10]--->全是1的矩阵
         :param : EncoderLayer(d_model, c(attn), c(ff), dropout) = self.src_embed(src)
         :param : 这里的意思是 self.src_embed(src) 作为输入，
         :return:

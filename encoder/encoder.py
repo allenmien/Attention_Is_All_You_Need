@@ -24,8 +24,8 @@ class Encoder(nn.Module):
 
     def forward(self, x, mask):
         """
-        :param x:
-        :param mask:
+        :param x:[30,10,512] 30样本，10个单词，512维的词向量的 representation
+        :param mask:[30,1,10]--->全是1的矩阵
         :return:
         """
         "Pass the input (and mask) through each layer in turn."

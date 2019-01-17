@@ -17,8 +17,9 @@ class EncoderLayer(nn.Module):
         """
         :param size: d_model=512
         :param self_attn: MultiHeadedAttention
-        :param feed_forward:
-        :param dropout:
+        :param feed_forward: PositionwiseFeedForward
+        :param size:512
+        :param dropout:0.1
         """
         super(EncoderLayer, self).__init__()
         self.self_attn = self_attn
@@ -28,8 +29,8 @@ class EncoderLayer(nn.Module):
 
     def forward(self, x, mask):
         """
-        :param x:
-        :param mask:
+        :param c
+        :param mask:[30,1,10]--->全是1的矩阵
         :return:
         """
         "Follow Figure 1 (left) for connections."
