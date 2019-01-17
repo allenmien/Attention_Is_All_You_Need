@@ -5,27 +5,27 @@
 @File   : model.py
 """
 import copy
+import time
 
 import numpy as np
 import seaborn
-import time
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from prepare.batch import Batch
+from attention.multi_headed_attention import MultiHeadedAttention
 from decoder.decoder import Decoder
 from decoder.decoder_layer import DecoderLayer
-from embedding.embeddings import Embeddings
-from encoder.encoder import Encoder
 from decoder.encoder_decoder import EncoderDecoder
+from embedding.embeddings import Embeddings
+from embedding.positional_encoding import PositionalEncoding
+from encoder.encoder import Encoder
 from encoder.encoder_layer import EncoderLayer
-from prepare.generator import Generator
-from attention.multi_headed_attention import MultiHeadedAttention
+from evl.subsequent_mask import subsequent_mask
 from layer_connections.noam_opt import NoamOpt
 from layer_connections.position_wise_feed_forward import PositionwiseFeedForward
-from embedding.positional_encoding import PositionalEncoding
-from evl.subsequent_mask import subsequent_mask
+from prepare.batch import Batch
+from prepare.generator import Generator
 
 seaborn.set_context(context="talk")
 
@@ -142,5 +142,3 @@ def greedy_decode(model, src, src_mask, max_len, start_symbol):
         ys = torch.cat([ys,
                         torch.ones(1, 1).type_as(src.data).fill_(next_word)], dim=1)
     return ys
-
-
