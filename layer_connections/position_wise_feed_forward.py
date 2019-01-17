@@ -23,4 +23,5 @@ class PositionwiseFeedForward(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
-        return self.w_2(self.dropout(F.relu(self.w_1(x))))
+        # x:[30,10,512] multi head attention 之后的输出
+        return self.w_2(self.dropout(F.relu(self.w_1(x)))) # [30,10,512] 下一个encoder单元的输入

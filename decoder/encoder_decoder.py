@@ -42,8 +42,9 @@ class EncoderDecoder(nn.Module):
 
     def encode(self, src, src_mask):
         """
-        self.src_embed(src) -->Embeddings-->PositionalEncoding-->Encoder-->EncoderLayer
-        -->SublayerConnection-->LayerNorm-->MultiHeadedAttention-->
+        self.src_embed(src) -->Embeddings-->PositionalEncoding-->(Encoder-->EncoderLayer
+        -->SublayerConnection-->LayerNorm-->MultiHeadedAttention-->attention-->PositionwiseFeedForward)*6
+        -->
         :param src: src = batch.src = [30,10]-->元素是：0-10之间的矩阵
                     self.src_embed(src) = layer
         :param self.src_embed： nn.Sequential(Embeddings(d_model, src_vocab), c(position))
@@ -63,10 +64,11 @@ class EncoderDecoder(nn.Module):
 
     def decode(self, memory, src_mask, tgt, tgt_mask):
         """
-        :param memory:
-        :param src_mask:
-        :param tgt:
-        :param tgt_mask:
+        :param memory:[50,10,512] encoder最后一层的输出
+        :param src_mask:[30,1,10]--->全是1的矩阵
+        :param tgt:[30,9]--->src[30,(0,9)] :这里的意思是一个source[0,10]的序列，target[0,9]和source是想同的，预测target[11]?=source[11]
+        :param tgt_mask:[30,9,9]:30中的每一个矩阵为对角线分开，下面为1，上面为0
+        :param self.tgt_embed(tgt) [30,9,512] 目标词汇的word representation
         :return:
         """
         return self.decoder(self.tgt_embed(tgt), memory, src_mask, tgt_mask)

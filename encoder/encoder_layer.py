@@ -36,4 +36,5 @@ class EncoderLayer(nn.Module):
         "Follow Figure 1 (left) for connections."
         x = self.sublayer[0](x, lambda x: self.self_attn(x, x, x, mask))
         # self.self_attn(x, x, x, mask) 是经过标准化之后的[30,10,512] 30样本，10个单词，512维的词向量的 representation
+        # x: [30,10,512], multi head attention 之后的输出,已经contact
         return self.sublayer[1](x, self.feed_forward)
