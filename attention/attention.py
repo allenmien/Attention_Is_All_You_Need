@@ -11,11 +11,11 @@ import torch.nn.functional as F
 
 def attention(query, key, value, mask=None, dropout=None):
     """
-    :param query:
-    :param key:
-    :param value:
-    :param mask:
-    :param dropout:
+    :param query:[30,8,10,64]
+    :param key:[30,8,10,64]
+    :param value:[30,8,10,64]
+    :param mask:[30,1,1,10]:[30,1]中的每一个都是[1,10]的全是1的矩阵
+    :param dropout:nn.Dropout(p=0.1)
     :return:
     """
     "Compute 'Scaled Dot Product Attention'"

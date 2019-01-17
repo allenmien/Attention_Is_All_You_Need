@@ -29,10 +29,11 @@ class EncoderLayer(nn.Module):
 
     def forward(self, x, mask):
         """
-        :param c
+        :param x [30,10,512] 30样本，10个单词，512维的词向量的 representation
         :param mask:[30,1,10]--->全是1的矩阵
         :return:
         """
         "Follow Figure 1 (left) for connections."
         x = self.sublayer[0](x, lambda x: self.self_attn(x, x, x, mask))
+        # self.self_attn(x, x, x, mask) 是经过标准化之后的[30,10,512] 30样本，10个单词，512维的词向量的 representation
         return self.sublayer[1](x, self.feed_forward)
