@@ -1,0 +1,6 @@
+torch==0.3
+numpy
+matplotlib
+spacy
+torchtext
+seaborn
