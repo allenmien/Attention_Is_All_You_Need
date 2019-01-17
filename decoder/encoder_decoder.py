@@ -15,9 +15,9 @@ class EncoderDecoder(nn.Module):
 
     def __init__(self, encoder, decoder, src_embed, tgt_embed, generator):
         """
-        :param encoder:
+        :param encoder: Encoder(EncoderLayer(d_model, c(attn), c(ff), dropout), N)
         :param decoder:
-        :param src_embed:
+        :param src_embed: nn.Sequential(Embeddings(d_model, src_vocab), c(position))
         :param tgt_embed:
         :param generator:
         """
@@ -42,8 +42,14 @@ class EncoderDecoder(nn.Module):
 
     def encode(self, src, src_mask):
         """
-        :param src:
-        :param src_mask:
+        :param src: src = batch.src = [30,10]-->元素是：0-10之间的矩阵
+                    self.src_embed(src) = layer
+        :param self.src_embed： nn.Sequential(Embeddings(d_model, src_vocab), c(position))
+        :param : d_model=512, src_vocab=11, position = PositionalEncoding(d_model, dropout),dropout=0.1
+        :param ：Embeddings(d_model, src_vocab)
+        :param ：src_mask N=6
+        :param : EncoderLayer(d_model, c(attn), c(ff), dropout) = self.src_embed(src)
+        :param : 这里的意思是 self.src_embed(src) 作为输入，
         :return:
         """
         return self.encoder(self.src_embed(src), src_mask)

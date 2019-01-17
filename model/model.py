@@ -117,6 +117,9 @@ def data_gen(V, batch, nbatches):
     :param V:
     :param batch:
     :param nbatches:
+    :param src=Batch.src: [30,10] -->(0,10)
+    :param tgt=Barch.tgt: [30,10] -->(0,10)
+    :param
     :return:
     """
     "Generate random data for a src-tgt copy task."

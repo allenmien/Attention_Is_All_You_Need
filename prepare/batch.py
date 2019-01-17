@@ -13,8 +13,10 @@ class Batch:
 
     def __init__(self, src, trg=None, pad=0):
         """
-        :param src:
-        :param trg:
+        :param src:[30,10]--->random in (0,10)
+        :param self.src_mask :[30,1,10]--->全是1的矩阵
+        :param trg:[30,9]--->src[30,(0,9)]
+        :param self.trg_y:[30,9]--->src[30,(1,10)]
         :param pad:
         """
         self.src = src
