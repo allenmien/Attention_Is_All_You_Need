@@ -6,7 +6,7 @@
 """
 import torch.nn as nn
 
-from attention.attention import attention
+from attention.attention_core import attention
 from utils.clone import clones
 
 

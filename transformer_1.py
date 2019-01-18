@@ -7,10 +7,11 @@
 import torch
 from torch.autograd import Variable
 
-from prepare.label import LabelSmoothing
-from model.model import make_model, run_epoch, data_gen, greedy_decode
-from layer_connections.noam_opt import NoamOpt
+from data.data_generate import data_gen
 from evl.simple_loss_compute import SimpleLossCompute
+from layer_connections.noam_opt import NoamOpt
+from model.model import make_model, run_epoch, greedy_decode
+from data.label import LabelSmoothing
 
 # Train the simple copy task.
 V = 11

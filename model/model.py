@@ -7,7 +7,6 @@
 import copy
 import time
 
-import numpy as np
 import seaborn
 import torch
 import torch.nn as nn
@@ -22,10 +21,8 @@ from embedding.positional_encoding import PositionalEncoding
 from encoder.encoder import Encoder
 from encoder.encoder_layer import EncoderLayer
 from evl.subsequent_mask import subsequent_mask
-from layer_connections.noam_opt import NoamOpt
 from layer_connections.position_wise_feed_forward import PositionwiseFeedForward
-from prepare.batch import Batch
-from prepare.generator import Generator
+from layer_connections.generator import Generator
 
 seaborn.set_context(context="talk")
 
@@ -79,56 +76,6 @@ def run_epoch(data_iter, model, loss_compute):
             start = time.time()
             tokens = 0
     return total_loss / total_tokens
-
-
-global max_src_in_batch, max_tgt_in_batch
-
-
-def batch_size_fn(new, count, sofar):
-    """
-    :param new:
-    :param count:
-    :param sofar:
-    :return:
-    """
-    "Keep augmenting batch and calculate total number of tokens + padding."
-    global max_src_in_batch, max_tgt_in_batch
-    if count == 1:
-        max_src_in_batch = 0
-        max_tgt_in_batch = 0
-    max_src_in_batch = max(max_src_in_batch, len(new.src))
-    max_tgt_in_batch = max(max_tgt_in_batch, len(new.trg) + 2)
-    src_elements = count * max_src_in_batch
-    tgt_elements = count * max_tgt_in_batch
-    return max(src_elements, tgt_elements)
-
-
-def get_std_opt(model):
-    """
-    :param model:
-    :return:
-    """
-    return NoamOpt(model.src_embed[0].d_model, 2, 4000,
-                   torch.optim.Adam(model.parameters(), lr=0, betas=(0.9, 0.98), eps=1e-9))
-
-
-def data_gen(V, batch, nbatches):
-    """
-    :param V:
-    :param batch:
-    :param nbatches:
-    :param src=Batch.src: [30,10] -->(0,10)
-    :param tgt=Barch.tgt: [30,10] -->(0,10)
-    :param
-    :return:
-    """
-    "Generate random data for a src-tgt copy task."
-    for i in range(nbatches):
-        data = torch.from_numpy(np.random.randint(1, V, size=(batch, 10)))
-        data[:, 0] = 1
-        src = Variable(data, requires_grad=False)
-        tgt = Variable(data, requires_grad=False)
-        yield Batch(src, tgt, 0)
 
 
 def greedy_decode(model, src, src_mask, max_len, start_symbol):

@@ -2,7 +2,7 @@
 """
 @Time   : 2019-01-17 14:00
 @Author : Mark
-@File   : attention.py
+@File   : attention_core.py
 """
 import math
 import torch
